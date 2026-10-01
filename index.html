@@ -457,8 +457,39 @@ function render(){renderLibrary();renderEntries();renderStats();$('bookSelect').
 function renderLibrary(){let fs=['All','Reading','Want to Read','Finished'];$('filters').innerHTML=fs.map(x=>'<button class="pill '+(currentFilter===x?'active':'')+'" onclick="currentFilter=\''+x+'\';renderLibrary()">'+x+'</button>').join('');let reading=data.books.find(b=>b.status==='Reading');$('currentSection').innerHTML=reading?'<div class="section"><h2>Currently Reading</h2><div class="current" onclick="openBook(\''+esc(reading.id)+'\')">'+cover(reading)+'<div><h3>'+esc(reading.title)+'</h3><div class="tiny">'+esc((reading.authors||[]).join(', '))+'</div><div class="progress"><i style="width:'+pct(reading)+'%"></i></div><div class="tiny">'+(+reading.progress||0)+' / '+(reading.pages||'?')+' pages</div></div><div class="more">⋮</div></div></div>':'';let groups=currentFilter==='All'?[['Want to Read',data.books.filter(b=>b.status==='Want to Read')],['Finished ('+data.books.filter(b=>b.status==='Finished').length+')',data.books.filter(b=>b.status==='Finished')]]:[[currentFilter,data.books.filter(b=>b.status===currentFilter)]];$('librarySections').innerHTML=groups.map(([name,bs])=>bs.length?'<div class="section"><div class="sectionhead"><h2>'+name+'</h2></div><div class="shelf">'+bs.map(bookTile).join('')+'</div></div>':'').join('')||(!data.books.length?'<div class="empty"><span class="emptyKicker">YOUR SHELF STARTS HERE.</span><strong>FIND A BOOK.<br>MAKE IT YOURS.</strong><button class="emptyCTA" id="emptyCTA">ADD YOUR FIRST BOOK →</button></div>':'')}
 function bookTile(b){return '<div class="book" onclick="openBook(\''+esc(b.id)+'\')">'+cover(b)+'<div class="bt">'+esc(b.title)+'</div><div class="ba">'+esc((b.authors||[]).join(', '))+'</div></div>'}
 let searchType='books';
-function setSearchType(type,btn){searchType=type;document.querySelectorAll('.searchTypes button').forEach(b=>b.classList.toggle('active',b===btn));let q=$('q');q.placeholder=type==='authors'?'Author name':type==='isbn'?'ISBN':'Title, author or ISBN';q.focus()}
-async function searchBooks(){let q=$('q').value.trim(),out=$('results');if(!q)return;out.innerHTML='<div class="empty">Searching…</div>';try{let r=await fetch('https://openlibrary.org/search.json?'+(searchType==='authors'?'author=':searchType==='isbn'?'isbn=':'q=')+encodeURIComponent(q)+'&limit=15&fields=key,title,author_name,cover_i,first_publish_year,number_of_pages_median,isbn,subject');if(!r.ok)throw 0;let j=await r.json();let items=(j.docs||[]).map(x=>({id:x.key||'ol'+x.cover_i,title:x.title||'Untitled',authors:x.author_name||[],cover:x.cover_i?'https://covers.openlibrary.org/b/id/'+x.cover_i+'-M.jpg':'',pages:x.number_of_pages_median||0,published:String(x.first_publish_year||''),categories:(x.subject||[]).slice(0,3),description:'',status:'Want to Read',progress:0,rating:0,favorite:false}));renderResults(items)}catch(e){try{let r=await fetch('https://www.googleapis.com/books/v1/volumes?q='+encodeURIComponent(q)+'&maxResults=15'),j=await r.json();renderResults((j.items||[]).map(x=>{let v=x.volumeInfo||{};return{id:x.id,title:v.title||'',authors:v.authors||[],cover:v.imageLinks?.thumbnail||'',pages:v.pageCount||0,published:v.publishedDate||'',categories:v.categories||[],description:v.description||'',status:'Want to Read',progress:0,rating:0,favorite:false}}))}catch(e2){out.innerHTML='<div class="empty">Search is unavailable right now.</div>'}}}
+function setSearchType(type,btn){
+ searchType=type;
+ document.querySelectorAll('.searchTypes button').forEach(b=>b.classList.toggle('active',b===btn));
+ let input=$('q');
+ input.value='';
+ input.placeholder=type==='authors'?'Search by author name':type==='isbn'?'Enter ISBN-10 or ISBN-13':'Search title, author or ISBN';
+ $('results').innerHTML='<div class="searchIntro"><span class="searchIntroKicker">'+(type==='authors'?'AUTHOR SEARCH':type==='isbn'?'ISBN SEARCH':'SEARCH THE CATALOGUE')+'</span><strong>'+(type==='authors'?'FIND BOOKS BY AUTHOR.':type==='isbn'?'FIND AN EXACT EDITION.':'BOOKS, AUTHORS & ISBN.')+'</strong></div>';
+ input.focus();
+}
+async function searchBooks(){
+ let q=$('q').value.trim(),out=$('results');if(!q)return;
+ out.innerHTML='<div class="empty">Searching…</div>';
+ try{
+   let url;
+   if(searchType==='authors') url='https://openlibrary.org/search.json?author='+encodeURIComponent(q)+'&limit=15&fields=key,title,author_name,cover_i,first_publish_year,number_of_pages_median,isbn,subject';
+   else if(searchType==='isbn'){
+     let isbn=q.replace(/[^0-9Xx]/g,'');
+     if(!(isbn.length===10||isbn.length===13)){out.innerHTML='<div class="empty">Enter a valid ISBN-10 or ISBN-13.</div>';return}
+     url='https://openlibrary.org/search.json?q='+encodeURIComponent('isbn:'+isbn)+'&limit=15&fields=key,title,author_name,cover_i,first_publish_year,number_of_pages_median,isbn,subject';
+   } else url='https://openlibrary.org/search.json?q='+encodeURIComponent(q)+'&limit=15&fields=key,title,author_name,cover_i,first_publish_year,number_of_pages_median,isbn,subject';
+   let r=await fetch(url);if(!r.ok)throw new Error('Open Library');
+   let j=await r.json();
+   let items=(j.docs||[]).map(x=>({id:x.key||'ol'+x.cover_i,title:x.title||'Untitled',authors:x.author_name||[],cover:x.cover_i?'https://covers.openlibrary.org/b/id/'+x.cover_i+'-M.jpg':'',pages:x.number_of_pages_median||0,published:String(x.first_publish_year||''),categories:(x.subject||[]).slice(0,3),description:'',status:'Want to Read',progress:0,rating:0,favorite:false}));
+   renderResults(items);
+ }catch(err){
+   if(searchType==='authors'){out.innerHTML='<div class="empty">Author search is unavailable right now.</div>';return}
+   try{
+     let gq=searchType==='isbn'?'isbn:'+q:q;
+     let r=await fetch('https://www.googleapis.com/books/v1/volumes?q='+encodeURIComponent(gq)+'&maxResults=15'),j=await r.json();
+     renderResults((j.items||[]).map(x=>{let v=x.volumeInfo||{};return{id:x.id,title:v.title||'',authors:v.authors||[],cover:v.imageLinks?.thumbnail||'',pages:v.pageCount||0,published:v.publishedDate||'',categories:v.categories||[],description:v.description||'',status:'Want to Read',progress:0,rating:0,favorite:false}}));
+   }catch(e2){out.innerHTML='<div class="empty">Search is unavailable right now.</div>'}
+ }
+}
 function renderResults(items){$('results').innerHTML=items.map((b,i)=>'<div class="result">'+cover(b)+'<div><h3>'+esc(b.title)+'</h3><div class="meta">'+esc((b.authors||[]).join(', '))+'<br>'+esc(b.published)+' · '+(b.pages||'?')+' pages</div><div class="meta">Online catalogue</div></div><button class="add" onclick=\'addBook('+JSON.stringify(JSON.stringify(b))+')\'>+</button></div>').join('')||'<div class="empty">No books found.</div>'}
 function addBook(raw){let b=JSON.parse(raw);if(!data.books.some(x=>x.id===b.id))data.books.push(b);persist();openBook(b.id)}
 function openBook(id){currentBook=id;renderBook();go('book')}
