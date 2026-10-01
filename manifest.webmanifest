@@ -3,7 +3,15 @@
   "short_name": "Reading Journal",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#ffffff",
-  "theme_color": "#ffe500",
-  "description": "A personal reading journal for books, notes, quotes and reading progress."
+  "background_color": "#9ed9df",
+  "theme_color": "#9ed9df",
+  "description": "A personal reading journal for books, notes, quotes and reading progress.",
+  "icons": [
+    {
+      "src": "/a_clean_flat_graphic_app_icon_style_logo_design_o.png",
+      "sizes": "any",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
 }
