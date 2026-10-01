@@ -1,0 +1,9 @@
+{
+  "name": "My Reading Journal",
+  "short_name": "Reading Journal",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#ffe500",
+  "description": "A personal reading journal for books, notes, quotes and reading progress."
+}
