@@ -219,6 +219,20 @@ html,body,.app,#libraryView{background-color:#fff!important;color:#0a0a0a!import
  .navbtn:nth-child(2) b:after,.navbtn:nth-child(4) b:before{background-color:currentColor!important}
  .fab{background:#ffcf33!important;color:#111!important;border:2px solid #161616!important;box-shadow:0 0 0 2px #ffcf33!important}
 }
+
+/* Dark mode accessibility: no low-contrast grey text */
+@media (prefers-color-scheme:dark){
+ #libraryView,.nav{--darkText:#f7f4ed;--darkMuted:#dedbd3}
+ #libraryView .tiny,#libraryView .meta,#libraryView .ba,#libraryView .author,
+ #libraryView .book .ba,#libraryView .current .tiny,#libraryView .emptyKicker,
+ .navbtn,.navbtn:nth-child(n){color:var(--darkMuted)!important}
+ #libraryView h1,#libraryView h2,#libraryView h3,#libraryView .bt,
+ #libraryView .book .bt,#libraryView .libraryTitle{color:var(--darkText)!important}
+ .navbtn.active,.navbtn:nth-child(n).active{color:#ffcf33!important}
+ .libraryFilters .pill{color:var(--darkText)!important;border-color:#8f8c85!important}
+ #libraryView .progress{background:#56534e!important}
+ #libraryView .sectionhead,.nav{border-color:#77736c!important}
+}
 </style></head>
 <body><div class="app">
 <header class="header" id="mainHeader"><div class="brand">My Reading Journal</div><button class="iconbtn" onclick="go(&quot;search&quot;)">⌕</button></header>
