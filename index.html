@@ -396,6 +396,21 @@ html,body,.app,#libraryView{background-color:#fff!important;color:#0a0a0a!import
  .compactEmpty{border-color:#77736c!important}.miniStats span{border-color:#77736c!important}
  .quoteStandalone{box-shadow:4px 4px 0 #ffcf33!important}
 }
+
+/* ===== Chrome dark-mode cleanup ===== */
+@media(prefers-color-scheme:dark){
+  .libraryFilters,.filterRow,.filters{background:#141414!important}
+  .libraryFilters::before,.libraryFilters::after,.filterRow::before,.filterRow::after{background:#141414!important}
+  .searchTypes button{background:#191919!important;color:#f7f4ed!important;border:2px solid #77736c!important}
+  .searchTypes button.active{background:#ffcf33!important;color:#111!important;border-color:#ffcf33!important}
+  .searchbox{background:#202020!important;border-color:#f7f4ed!important}
+  .searchbox input{background:#202020!important;color:#f7f4ed!important;-webkit-text-fill-color:#f7f4ed!important}
+  .searchbox input::placeholder{color:#aaa69e!important;opacity:1!important}
+  .searchbox button{background:#ffcf33!important;color:#111!important}
+  .statsTabs button,.statsFilter button{background:#202020!important;color:#f7f4ed!important;border-color:#77736c!important}
+  .statsTabs button.active,.statsFilter button.active{background:#ffcf33!important;color:#111!important;border-color:#ffcf33!important}
+}
+.libraryTop .searchIcon,.libraryTop .iconbtn{background:transparent!important;border:2px solid currentColor!important;box-shadow:none!important}
 </style><link rel="manifest" href="/manifest.webmanifest"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"></head>
 <body><div class="app">
 <header class="header" id="mainHeader"><div class="brand">My Reading Journal</div><button class="iconbtn" onclick="go(&quot;search&quot;)" aria-label="Search">SEARCH</button></header>
