@@ -170,7 +170,7 @@ html,body,.app,#libraryView{background-color:#fff!important;color:#0a0a0a!import
 .fab{font-family:Arial,sans-serif!important;font-weight:300!important}
 </style></head>
 <body><div class="app">
-<header class="header" id="mainHeader"><div class="brand">My Reading Journal</div><button class="iconbtn" onclick="go(\'search\')">⌕</button></header>
+<header class="header" id="mainHeader"><div class="brand">My Reading Journal</div><button class="iconbtn" onclick="go('search')">⌕</button></header>
 <main>
 <section id="libraryView" class="view active"><div class="libraryTop"><div class="libraryTitle">My Reading Journal</div><button class="librarySearch" onclick="go('search')" aria-label="Search">⌕</button></div><div class="tabs libraryFilters" id="filters"></div><div id="currentSection"></div><div id="librarySections"></div></section>
 <section id="searchView" class="view"><div class="topbar"><button class="back" onclick="go('library')">‹</button><h1>Search for a book</h1><span style="width:20px"></span></div><div class="searchbox">⌕<input id="q" placeholder="Title, author or ISBN" onkeydown="if(event.key==='Enter')searchBooks()"></div><div class="searchTypes"><button class="pill active">Books</button><button class="pill">Authors</button><button class="pill">ISBN</button></div><div id="results"></div></section>
