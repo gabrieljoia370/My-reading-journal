@@ -387,7 +387,7 @@ html,body,.app,#libraryView{background-color:#fff!important;color:#0a0a0a!import
 <section id="bookView" class="view"><div id="bookDetail"></div></section>
 <section id="journalView" class="view"><div class="topbar"><h1 style="text-align:left">Reading Journal</h1></div><div id="entries"></div></section>
 <section id="statsView" class="view"><div class="topbar"><h1>Reading Stats</h1></div><div class="tabs"><button class="pill active">Year</button><button class="pill">All time</button><button class="pill">Genres</button></div><div id="stats"></div></section>
-<section id="profileView" class="view"><div class="topbar"><h1>Google Drive Sync</h1></div><div class="profileCard"><b>Sync with Google Drive</b><span id="driveToggle" class="toggle"></span><p class="meta">Your reading journal is saved in your Google Drive.</p><button id="driveBtn" class="greenbtn wide" onclick="connectDrive()">Connect Google Drive</button><button id="syncBtn" class="greenbtn wide hidden" onclick="syncDrive()">Sync now</button><button id="restoreBtn" class="greenbtn wide hidden" onclick="restoreDrive()" style="margin-top:8px">Restore from Drive</button></div><div class="profileCard"><b>What's saved</b><p class="meta">✓ Library (books, status, progress)<br>✓ Journal entries<br>✓ Favorite quotes<br>✓ Final reflections<br>✓ Reading stats</p></div></section>
+<section id="profileView" class="view"><div class="topbar"><h1>Google Drive Sync</h1></div><div class="profileCard"><b>Sync with Google Drive</b><span id="driveToggle" class="toggle"></span><p class="meta">Your reading journal is saved in your Google Drive.</p><p id="driveStatus" class="meta">Not synced yet</p><button id="driveBtn" class="greenbtn wide" onclick="connectDrive()">Connect Google Drive</button><button id="syncBtn" class="greenbtn wide hidden" onclick="syncDrive()">Sync now</button><button id="restoreBtn" class="greenbtn wide hidden" onclick="restoreDrive()" style="margin-top:8px">Restore from Drive</button></div><div class="profileCard"><b>What's saved</b><p class="meta">✓ Library (books, status, progress)<br>✓ Journal entries<br>✓ Favorite quotes<br>✓ Final reflections<br>✓ Reading stats</p></div></section>
 <section id="journeyView" class="view"><div class="topbar"><button class="back" onclick="go('book')">‹</button><h1>Your Reading Journey</h1><span></span></div><div id="journey"></div></section>
 <section id="reflectionView" class="view"><div class="topbar"><button class="back" onclick="go('book')">‹</button><h1>Final Reflection</h1><button class="save" onclick="saveReflection()">Save</button></div><div id="reflectionForm"></div></section>
 </main></div>
@@ -437,7 +437,40 @@ function initGoogle(){if(!window.google?.accounts?.oauth2)return;tokenClient=goo
 function connectDrive(){if(!tokenClient)initGoogle();if(tokenClient)tokenClient.requestAccessToken({prompt:'consent'});else setTimeout(connectDrive,700)}
 async function driveReq(url,opt={}){return fetch(url,{...opt,headers:{Authorization:'Bearer '+accessToken,...(opt.headers||{})}})}
 async function ensureDrive(){let q=encodeURIComponent("name='My Reading Journal' and mimeType='application/vnd.google-apps.folder' and trashed=false"),r=await driveReq('https://www.googleapis.com/drive/v3/files?q='+q+'&fields=files(id,name)'),j=await r.json();driveFolderId=j.files?.[0]?.id;if(!driveFolderId){r=await driveReq('https://www.googleapis.com/drive/v3/files',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name:'My Reading Journal',mimeType:'application/vnd.google-apps.folder'})});driveFolderId=(await r.json()).id}q=encodeURIComponent("name='reading-journal.json' and '"+driveFolderId+"' in parents and trashed=false");r=await driveReq('https://www.googleapis.com/drive/v3/files?q='+q+'&fields=files(id)');driveFileId=(await r.json()).files?.[0]?.id}
-async function syncDrive(silent=false){if(!accessToken){if(localStorage.getItem('driveConnected')==='1'&&tokenClient)tokenClient.requestAccessToken({prompt:''});return;}try{await ensureDrive();let blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});if(driveFileId)await driveReq('https://www.googleapis.com/upload/drive/v3/files/'+driveFileId+'?uploadType=media',{method:'PATCH',headers:{'Content-Type':'application/json'},body:blob});else{let meta={name:'reading-journal.json',parents:[driveFolderId]},form=new FormData();form.append('metadata',new Blob([JSON.stringify(meta)],{type:'application/json'}));form.append('file',blob);let r=await driveReq('https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart',{method:'POST',body:form});driveFileId=(await r.json()).id}}catch(e){if(!silent)console.error(e)}}
+async function syncDrive(silent=false){
+ let btn=$('syncBtn'),old=btn?btn.textContent:'SYNC NOW';
+ if(btn&&!silent){btn.disabled=true;btn.textContent='SYNCING…'}
+ if(!accessToken){
+   if(btn&&!silent){btn.disabled=false;btn.textContent=old}
+   if(localStorage.getItem('driveConnected')==='1'&&tokenClient)tokenClient.requestAccessToken({prompt:''});
+   if(!silent)alert('Google Drive is reconnecting. Tap SYNC NOW once more if needed.');
+   return;
+ }
+ try{
+   await ensureDrive();
+   let blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'}),r;
+   if(driveFileId){
+     r=await driveReq('https://www.googleapis.com/upload/drive/v3/files/'+driveFileId+'?uploadType=media',{method:'PATCH',headers:{'Content-Type':'application/json'},body:blob});
+   }else{
+     let meta={name:'reading-journal.json',parents:[driveFolderId]},form=new FormData();
+     form.append('metadata',new Blob([JSON.stringify(meta)],{type:'application/json'}));form.append('file',blob);
+     r=await driveReq('https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart',{method:'POST',body:form});
+     if(r.ok)driveFileId=(await r.json()).id;
+   }
+   if(!r||!r.ok)throw new Error('Drive upload failed '+(r?r.status:''));
+   localStorage.setItem('lastDriveSync',new Date().toISOString());
+   updateDriveStatus();
+   if(!silent)alert('Saved to Google Drive.');
+ }catch(e){
+   console.error(e);
+   if(!silent)alert('Google Drive sync failed. Please reconnect Drive and try again.');
+ }finally{if(btn&&!silent){btn.disabled=false;btn.textContent=old}}
+}
+function updateDriveStatus(){
+ let el=$('driveStatus');if(!el)return;
+ let t=localStorage.getItem('lastDriveSync');
+ el.textContent=t?'Last synced: '+new Date(t).toLocaleString():'Not synced yet';
+}
 document.addEventListener('click',e=>{if(e.target.closest('#emptyCTA'))go('search')});
 window.addEventListener('load',()=>{setTimeout(initGoogle,700);if('serviceWorker' in navigator)navigator.serviceWorker.register('/sw.js').catch(()=>{})});render();
 </script></body></html>
