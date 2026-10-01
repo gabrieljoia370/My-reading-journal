@@ -233,6 +233,21 @@ html,body,.app,#libraryView{background-color:#fff!important;color:#0a0a0a!import
  #libraryView .progress{background:#56534e!important}
  #libraryView .sectionhead,.nav{border-color:#77736c!important}
 }
+
+/* Bottom navigation: clean, consistent icon set */
+.navbtn b{width:24px!important;height:24px!important;margin:0 auto 4px!important;position:relative!important;display:block!important}
+.navbtn b:before,.navbtn b:after{box-sizing:border-box!important}
+@media (prefers-color-scheme:dark){
+ .nav{background:#161616!important;border-top:1px solid #555!important}
+ .navbtn,.navbtn:nth-child(n){background:#161616!important;color:#f4f1ea!important;border:0!important}
+ .navbtn.active,.navbtn:nth-child(n).active{background:#242424!important;color:#ffcf33!important}
+ .navbtn:nth-child(1) b:before,.navbtn:nth-child(1) b:after{border:2px solid currentColor!important;background:transparent!important}
+ .navbtn:nth-child(2) b:before{border:2px solid currentColor!important;background:transparent!important}
+ .navbtn:nth-child(2) b:after{background:currentColor!important}
+ .navbtn:nth-child(4) b:before{background:currentColor!important;box-shadow:7px -5px 0 currentColor,14px -11px 0 currentColor!important}
+ .navbtn:nth-child(5) b:before,.navbtn:nth-child(5) b:after{border:2px solid currentColor!important;background:transparent!important}
+ .fab{background:#ffcf33!important;color:#111!important;border:0!important;box-shadow:none!important;width:58px!important;height:58px!important}
+}
 </style></head>
 <body><div class="app">
 <header class="header" id="mainHeader"><div class="brand">My Reading Journal</div><button class="iconbtn" onclick="go(&quot;search&quot;)">⌕</button></header>
