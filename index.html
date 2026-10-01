@@ -421,6 +421,14 @@ html,body,.app,#libraryView{background-color:#fff!important;color:#0a0a0a!import
    background:#ffcf33!important;color:#111!important;-webkit-text-fill-color:#111!important
  }
 }
+
+/* Stats top tabs: final Chrome dark-mode fix */
+#statsView>.tabs .pill{background:#202020!important;color:#f7f4ed!important;-webkit-text-fill-color:#f7f4ed!important;border:2px solid #77736c!important;opacity:1!important}
+#statsView>.tabs .pill.active{background:#ffcf33!important;color:#111!important;-webkit-text-fill-color:#111!important;border-color:#ffcf33!important}
+@media(prefers-color-scheme:dark){
+ #statsView>.tabs .pill{background:#202020!important;color:#f7f4ed!important;-webkit-text-fill-color:#f7f4ed!important;border-color:#77736c!important}
+ #statsView>.tabs .pill.active{background:#ffcf33!important;color:#111!important;-webkit-text-fill-color:#111!important;border-color:#ffcf33!important}
+}
 </style><link rel="manifest" href="/manifest.webmanifest"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"></head>
 <body><div class="app">
 <header class="header" id="mainHeader"><div class="brand">My Reading Journal</div><button class="iconbtn" onclick="go(&quot;search&quot;)" aria-label="Search">SEARCH</button></header>
