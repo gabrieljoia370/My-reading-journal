@@ -193,6 +193,32 @@ html,body,.app,#libraryView{background-color:#fff!important;color:#0a0a0a!import
  .fab{background:#ff4fa3!important;color:#080808!important;border-color:#f7f7f2!important}
  .emptyCTA{background:#ffe500!important;color:#080808!important;border-color:#f7f7f2!important;box-shadow:5px 5px 0 #f7f7f2!important}
 }
+
+/* Dark mode polish: calmer palette + consistent outlined icons */
+@media (prefers-color-scheme:dark){
+ html,body,.app,#libraryView{background:#161616!important;color:#f4f1ea!important}
+ .libraryTop{background:#161616!important;border-color:#f4f1ea!important}
+ .libraryTitle{color:#f4f1ea!important}
+ .libraryTitle:after{background:#ffcf33!important}
+ .librarySearch{background:transparent!important;color:#f4f1ea!important;border:2px solid #f4f1ea!important}
+ .librarySearch:before{border-color:#f4f1ea!important}.librarySearch:after{background:#f4f1ea!important}
+ .libraryFilters .pill{background:#242424!important;color:#f4f1ea!important;border-color:#4b4b4b!important}
+ .libraryFilters .pill:nth-child(1),.libraryFilters .pill:nth-child(2),.libraryFilters .pill:nth-child(3),.libraryFilters .pill:nth-child(4){background:#242424!important;color:#f4f1ea!important}
+ .libraryFilters .pill.active{background:#ffcf33!important;color:#111!important;border-color:#ffcf33!important}
+ #libraryView .current{background:#1d1d1d!important;color:#f4f1ea!important;border-color:#555!important;box-shadow:6px 6px 0 #ffcf33!important}
+ #libraryView .current h3,#libraryView .current .tiny,#libraryView .section>h2,#libraryView .sectionhead h2{color:#f4f1ea!important}
+ #libraryView .sectionhead{border-color:#4b4b4b!important}
+ #libraryView .book .bt{background:transparent!important;color:#f4f1ea!important;padding:0!important}
+ #libraryView .book .ba{color:#aaa!important}
+ #libraryView .empty{background:#161616!important;color:#f4f1ea!important}
+ .emptyCTA{background:#ffcf33!important;color:#111!important;border-color:#f4f1ea!important;box-shadow:4px 4px 0 #f4f1ea!important}
+ .nav{background:#161616!important;border-color:#4b4b4b!important}
+ .navbtn,.navbtn:nth-child(n){background:#161616!important;color:#aaa!important}
+ .navbtn.active,.navbtn:nth-child(n).active{background:#161616!important;color:#ffcf33!important}
+ .navbtn b:before,.navbtn b:after{border-color:currentColor!important;background-color:transparent}
+ .navbtn:nth-child(2) b:after,.navbtn:nth-child(4) b:before{background-color:currentColor!important}
+ .fab{background:#ffcf33!important;color:#111!important;border:2px solid #161616!important;box-shadow:0 0 0 2px #ffcf33!important}
+}
 </style></head>
 <body><div class="app">
 <header class="header" id="mainHeader"><div class="brand">My Reading Journal</div><button class="iconbtn" onclick="go(&quot;search&quot;)">⌕</button></header>
