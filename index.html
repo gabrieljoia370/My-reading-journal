@@ -411,6 +411,16 @@ html,body,.app,#libraryView{background-color:#fff!important;color:#0a0a0a!import
   .statsTabs button.active,.statsFilter button.active{background:#ffcf33!important;color:#111!important;border-color:#ffcf33!important}
 }
 .libraryTop .searchIcon,.libraryTop .iconbtn{background:transparent!important;border:2px solid currentColor!important;box-shadow:none!important}
+
+/* Reading Stats filter labels — definitive dark-mode fix */
+@media(prefers-color-scheme:dark){
+ #statsView .seg button,#statsView .statsTabs button,#statsView .statsFilter button{
+   background:#202020!important;color:#f7f4ed!important;-webkit-text-fill-color:#f7f4ed!important;opacity:1!important
+ }
+ #statsView .seg button.active,#statsView .statsTabs button.active,#statsView .statsFilter button.active{
+   background:#ffcf33!important;color:#111!important;-webkit-text-fill-color:#111!important
+ }
+}
 </style><link rel="manifest" href="/manifest.webmanifest"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"></head>
 <body><div class="app">
 <header class="header" id="mainHeader"><div class="brand">My Reading Journal</div><button class="iconbtn" onclick="go(&quot;search&quot;)" aria-label="Search">SEARCH</button></header>
