@@ -429,6 +429,26 @@ html,body,.app,#libraryView{background-color:#fff!important;color:#0a0a0a!import
  #statsView>.tabs .pill{background:#202020!important;color:#f7f4ed!important;-webkit-text-fill-color:#f7f4ed!important;border-color:#77736c!important}
  #statsView>.tabs .pill.active{background:#ffcf33!important;color:#111!important;-webkit-text-fill-color:#111!important;border-color:#ffcf33!important}
 }
+
+/* ===== PWA v1: force stable dark editorial theme on installed app ===== */
+html{color-scheme:dark!important;background:#141414!important}
+body,.app,.view{background:#141414!important;color:#f7f4ed!important}
+#bookView{background:#141414!important;color:#f7f4ed!important}
+#bookView .bookBody,#bookView .bookInfo,#bookView .detailBody,#bookView .bookDetails{background:#141414!important;color:#f7f4ed!important}
+#bookView h1,#bookView h2,#bookView h3,#bookView .bookTitle,#bookView .bookAuthor,#bookView .meta,#bookView .meta span,#bookView label{color:#f7f4ed!important;-webkit-text-fill-color:#f7f4ed!important}
+#bookView .field,#bookView input,#bookView textarea,#bookView select{background:#202020!important;color:#f7f4ed!important;-webkit-text-fill-color:#f7f4ed!important;border-color:#77736c!important}
+#bookView .progress{background:#454545!important}
+#bookView .progress i{background:#ffcf33!important}
+#bookView .tabs{background:#141414!important;border-color:#77736c!important}
+#bookView .tabs button,#bookView .bookTabs button{background:#141414!important;color:#f7f4ed!important;-webkit-text-fill-color:#f7f4ed!important}
+#bookView .tabs button.active,#bookView .bookTabs button.active{background:#ffcf33!important;color:#111!important;-webkit-text-fill-color:#111!important}
+#bookView .bookMeta,#bookView .metadata{background:#141414!important;color:#f7f4ed!important}
+#bookView .bookMeta>*,#bookView .metadata>*{border-color:#555!important}
+#bookView .statusbox,#bookView .statusBox{background:#202020!important;color:#f7f4ed!important;border-color:#77736c!important}
+#bookView .greenbtn{background:#ffcf33!important;color:#111!important;border-color:#111!important}
+@media(prefers-color-scheme:light){
+ html,body,.app,.view,#bookView{background:#141414!important;color:#f7f4ed!important}
+}
 </style><link rel="manifest" href="/manifest.webmanifest"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"></head>
 <body><div class="app">
 <header class="header" id="mainHeader"><div class="brand">My Reading Journal</div><button class="iconbtn" onclick="go(&quot;search&quot;)" aria-label="Search">SEARCH</button></header>
