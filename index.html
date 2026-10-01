@@ -256,6 +256,22 @@ html,body,.app,#libraryView{background-color:#fff!important;color:#0a0a0a!import
  .navbtn b svg{stroke:#f7f4ed!important}
  .navbtn.active b svg{stroke:#ffcf33!important}
 }
+
+/* Definitive bottom-nav reset: override legacy pseudo-icon rules */
+.nav .navbtn b{width:26px!important;height:26px!important;display:grid!important;place-items:center!important;margin:0 auto 5px!important}
+.nav .navbtn b::before,.nav .navbtn b::after,
+.nav .navbtn:nth-child(1) b::before,.nav .navbtn:nth-child(1) b::after,
+.nav .navbtn:nth-child(2) b::before,.nav .navbtn:nth-child(2) b::after,
+.nav .navbtn:nth-child(4) b::before,.nav .navbtn:nth-child(4) b::after,
+.nav .navbtn:nth-child(5) b::before,.nav .navbtn:nth-child(5) b::after{
+ content:none!important;display:none!important;border:0!important;box-shadow:none!important;background:none!important
+}
+.nav .navbtn b svg{display:block!important;width:25px!important;height:25px!important;overflow:visible!important;fill:none!important;stroke:currentColor!important;stroke-width:2!important;opacity:1!important}
+@media (prefers-color-scheme:dark){
+ .nav .navbtn{color:#f5f2eb!important;opacity:1!important}
+ .nav .navbtn.active{color:#ffcf33!important;background:#222!important}
+ .nav .navbtn b svg{stroke:currentColor!important}
+}
 </style></head>
 <body><div class="app">
 <header class="header" id="mainHeader"><div class="brand">My Reading Journal</div><button class="iconbtn" onclick="go(&quot;search&quot;)">⌕</button></header>
