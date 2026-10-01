@@ -272,12 +272,49 @@ html,body,.app,#libraryView{background-color:#fff!important;color:#0a0a0a!import
  .nav .navbtn.active{color:#ffcf33!important;background:#222!important}
  .nav .navbtn b svg{stroke:currentColor!important}
 }
+
+/* Search screen — editorial system */
+#searchView{padding:0 18px 120px;background:#fff;min-height:100vh}
+.searchTop{display:flex;gap:17px;align-items:flex-start;padding:28px 0 22px;border-bottom:4px solid #0a0a0a}
+.searchBack{width:42px;height:42px;flex:0 0 42px;border:2px solid #0a0a0a;background:#ffe500;display:grid;place-items:center}
+.searchBack svg,.searchbox svg{width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.searchEyebrow{font:900 10px/1 Arial,sans-serif;letter-spacing:1.6px}
+.searchTop h1{font-family:"Arial Narrow","Helvetica Neue",Arial,sans-serif;font-size:37px;line-height:.82;letter-spacing:-2.5px;text-transform:uppercase;margin:7px 0 0;font-weight:950}
+#searchView .searchbox{display:grid;grid-template-columns:25px 1fr auto;align-items:center;gap:8px;margin:26px 0 13px;border:3px solid #0a0a0a;padding:6px 6px 6px 12px;background:#fff}
+#searchView .searchbox input{min-width:0;border:0;outline:0;background:transparent;font:700 15px/1.2 Arial,sans-serif;color:#0a0a0a}
+.searchGo{border:0;background:#ff4fa3;color:#0a0a0a;padding:13px 10px;font:900 10px/1 Arial,sans-serif}
+#searchView .searchTypes{display:flex;gap:6px;margin-bottom:25px}
+#searchView .searchTypes .pill{border:2px solid #0a0a0a;background:#fff;color:#0a0a0a;border-radius:0;padding:8px 11px;font:900 10px/1 Arial,sans-serif}
+#searchView .searchTypes .pill.active{background:#0a0a0a;color:#fff}
+.searchIntro{padding:55px 4px 0}
+.searchIntro span{font:900 10px/1 Arial,sans-serif;letter-spacing:1.5px}
+.searchIntro strong{display:block;margin:11px 0;font-family:"Arial Narrow","Helvetica Neue",Arial,sans-serif;font-size:31px;line-height:.87;letter-spacing:-1.8px}
+.searchIntro p{max-width:270px;font:600 13px/1.45 Arial,sans-serif}
+#searchView .result{display:grid;grid-template-columns:68px 1fr 42px;gap:12px;align-items:center;padding:15px 0;border-bottom:2px solid #0a0a0a}
+#searchView .result .cover,#searchView .result .coverph{width:68px;height:98px;object-fit:cover}
+#searchView .result h3{font-family:"Arial Narrow","Helvetica Neue",Arial,sans-serif;font-size:18px;line-height:1;margin:0 0 6px;letter-spacing:-.6px}
+#searchView .result .add{width:38px;height:38px;border:2px solid #0a0a0a;background:#21c7f3;color:#0a0a0a;font-size:24px}
+#searchView .result .stars{color:#d89b00}
+@media(prefers-color-scheme:dark){
+ #searchView{background:#161616;color:#f7f4ed}
+ .searchTop{border-color:#f7f4ed}
+ .searchBack{background:#ffcf33;color:#111;border-color:#f7f4ed}
+ #searchView .searchbox{background:#202020;border-color:#f7f4ed;color:#f7f4ed}
+ #searchView .searchbox input{color:#f7f4ed}
+ #searchView .searchbox input::placeholder{color:#c9c5bd}
+ .searchGo{background:#ffcf33;color:#111}
+ #searchView .searchTypes .pill{background:#202020;color:#f7f4ed;border-color:#77736c}
+ #searchView .searchTypes .pill.active{background:#f7f4ed;color:#111;border-color:#f7f4ed}
+ #searchView .result{border-color:#555}
+ #searchView .result h3,#searchView .result .meta{color:#f7f4ed!important}
+ #searchView .result .add{background:#ffcf33;color:#111;border-color:#f7f4ed}
+}
 </style></head>
 <body><div class="app">
 <header class="header" id="mainHeader"><div class="brand">My Reading Journal</div><button class="iconbtn" onclick="go(&quot;search&quot;)">⌕</button></header>
 <main>
 <section id="libraryView" class="view active"><div class="libraryTop"><div class="libraryTitle">My Reading Journal</div><button class="librarySearch" onclick="go(`search`)" aria-label="Search">⌕</button></div><div class="tabs libraryFilters" id="filters"></div><div id="currentSection"></div><div id="librarySections"></div></section>
-<section id="searchView" class="view"><div class="topbar"><button class="back" onclick="go('library')">‹</button><h1>Search for a book</h1><span style="width:20px"></span></div><div class="searchbox">⌕<input id="q" placeholder="Title, author or ISBN" onkeydown="if(event.key==='Enter')searchBooks()"></div><div class="searchTypes"><button class="pill active">Books</button><button class="pill">Authors</button><button class="pill">ISBN</button></div><div id="results"></div></section>
+<section id="searchView" class="view"><div class="searchTop"><button class="searchBack" onclick="go('library')" aria-label="Back"><svg viewBox="0 0 24 24"><path d="M19 12H5M11 6l-6 6 6 6"/></svg></button><div><span class="searchEyebrow">DISCOVER</span><h1>FIND YOUR<br>NEXT BOOK.</h1></div></div><div class="searchbox"><svg viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m15.5 15.5 5 5"/></svg><input id="q" placeholder="Title, author or ISBN" onkeydown="if(event.key==='Enter')searchBooks()"><button class="searchGo" onclick="searchBooks()">SEARCH</button></div><div class="searchTypes"><button class="pill active">BOOKS</button><button class="pill">AUTHORS</button><button class="pill">ISBN</button></div><div id="results"><div class="searchIntro"><span>SEARCH THE CATALOGUE</span><strong>BOOKS, AUTHORS<br>&amp; ISBN.</strong><p>Add a book to your shelf and start your reading journal.</p></div></div></section>
 <section id="bookView" class="view"><div id="bookDetail"></div></section>
 <section id="journalView" class="view"><div class="topbar"><h1 style="text-align:left">Reading Journal</h1></div><div id="entries"></div></section>
 <section id="statsView" class="view"><div class="topbar"><h1>Reading Stats</h1></div><div class="tabs"><button class="pill active">Year</button><button class="pill">All time</button><button class="pill">Genres</button></div><div id="stats"></div></section>
