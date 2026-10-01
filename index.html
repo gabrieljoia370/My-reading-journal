@@ -168,9 +168,34 @@ html,body,.app,#libraryView{background-color:#fff!important;color:#0a0a0a!import
 .navbtn:nth-child(5) b:before{content:"";position:absolute;width:8px;height:8px;border:2px solid currentColor;border-radius:50%;left:7px;top:1px}.navbtn:nth-child(5) b:after{content:"";position:absolute;width:17px;height:9px;border:2px solid currentColor;border-bottom:0;border-radius:12px 12px 0 0;left:2px;bottom:0}
 .navbtn{letter-spacing:.15px!important}
 .fab{font-family:Arial,sans-serif!important;font-weight:300!important}
+
+@media (prefers-color-scheme: dark){
+ :root{color-scheme:dark!important}
+ html,body,.app,#libraryView{background:#101010!important;color:#f7f7f2!important}
+ .libraryTop{background:#101010!important;border-color:#f7f7f2!important}
+ .libraryTitle{color:#f7f7f2!important}
+ .librarySearch{background:#21c7f3!important;color:#080808!important;border-color:#f7f7f2!important}
+ .libraryFilters .pill{border-color:#f7f7f2!important}
+ #libraryView .empty{background:#101010!important;color:#f7f7f2!important}
+ #libraryView .section>h2,#libraryView .sectionhead h2{color:#f7f7f2!important}
+ #libraryView .current{background:#101010!important;color:#f7f7f2!important;border-color:#f7f7f2!important}
+ #libraryView .current h3,#libraryView .current .tiny{color:#f7f7f2!important}
+ #libraryView .current .progress{background:#333!important}
+ #libraryView .current .progress i{background:#ffe500!important}
+ #libraryView .book .bt{color:#080808!important}
+ #libraryView .book .ba{color:#c9c9c3!important}
+ .nav{background:#101010!important;color:#f7f7f2!important;border-color:#f7f7f2!important}
+ .navbtn{background:#101010!important;color:#f7f7f2!important}
+ .navbtn:nth-child(1).active{background:#ffe500!important;color:#080808!important}
+ .navbtn:nth-child(2).active{background:#ff4fa3!important;color:#080808!important}
+ .navbtn:nth-child(4).active{background:#21c7f3!important;color:#080808!important}
+ .navbtn:nth-child(5).active{background:#ff6a38!important;color:#080808!important}
+ .fab{background:#ff4fa3!important;color:#080808!important;border-color:#f7f7f2!important}
+ .emptyCTA{background:#ffe500!important;color:#080808!important;border-color:#f7f7f2!important;box-shadow:5px 5px 0 #f7f7f2!important}
+}
 </style></head>
 <body><div class="app">
-<header class="header" id="mainHeader"><div class="brand">My Reading Journal</div><button class="iconbtn" onclick="go('search')">⌕</button></header>
+<header class="header" id="mainHeader"><div class="brand">My Reading Journal</div><button class="iconbtn" onclick="go(&quot;search&quot;)">⌕</button></header>
 <main>
 <section id="libraryView" class="view active"><div class="libraryTop"><div class="libraryTitle">My Reading Journal</div><button class="librarySearch" onclick="go('search')" aria-label="Search">⌕</button></div><div class="tabs libraryFilters" id="filters"></div><div id="currentSection"></div><div id="librarySections"></div></section>
 <section id="searchView" class="view"><div class="topbar"><button class="back" onclick="go('library')">‹</button><h1>Search for a book</h1><span style="width:20px"></span></div><div class="searchbox">⌕<input id="q" placeholder="Title, author or ISBN" onkeydown="if(event.key==='Enter')searchBooks()"></div><div class="searchTypes"><button class="pill active">Books</button><button class="pill">Authors</button><button class="pill">ISBN</button></div><div id="results"></div></section>
